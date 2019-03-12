@@ -58,4 +58,43 @@ $(document).ready(function(){
         $('#colors-js-puns label').hide();
         $('#color').hide();
     }
+
+    // Controls checkboxes
+
+    $("fieldset.activities label input[type=checkbox]").on("change", function(e) {
+
+        if (e.target.checked) {
+            // if nth checkbox was checked happens...
+            if (e.target.name == $(this).get(1).name) {
+                $(this).eq(3).attr("disabled", true);
+            } else if (e.target.name == $(this).get(2).name) {
+                console.log(e.target.name + ': checked');
+            } else if (e.target.name == $(this).get(3).name) {
+                console.log(e.target.name + ': checked');
+            } else if (e.target.name == $(this).get(4).name) {
+                console.log(e.target.name + ': checked');
+            } else if (e.target.name == $(this).get(5).name) {
+                console.log(e.target.name + ': checked');
+            } else if (e.target.name == $(this).get(6).name) {
+                console.log(e.target.name + ': checked');
+            }
+        } else {
+            // if nth checkbox was unchecked happens...
+            if (e.target.name == $(this).get(1).name) {
+                $(this).eq(3).attr("disabled", false);
+            } else if (e.target.name == $(this).get(2).name) {
+                console.log(e.target.name + ': ' + e.target.checked);
+            } else if (e.target.name == $(this).get(3).name) {
+                console.log(e.target.name + ': ' + e.target.checked);
+            } else if (e.target.name == $(this).get(4).name) {
+                console.log(e.target.name + ': ' + e.target.checked);
+            } else if (e.target.name == $(this).get(5).name) {
+                console.log(e.target.name + ': ' + e.target.checked);
+            } else if (e.target.name == $(this).get(6).name) {
+                console.log(e.target.name + ': ' + e.target.checked);
+            }
+        }
+
+        
+    });
 });
