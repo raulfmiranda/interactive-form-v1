@@ -63,38 +63,27 @@ $(document).ready(function(){
 
     $("fieldset.activities label input[type=checkbox]").on("change", function(e) {
 
-        if (e.target.checked) {
-            // if nth checkbox was checked happens...
-            if (e.target.name == $(this).get(1).name) {
-                $(this).eq(3).attr("disabled", true);
-            } else if (e.target.name == $(this).get(2).name) {
-                console.log(e.target.name + ': checked');
-            } else if (e.target.name == $(this).get(3).name) {
-                console.log(e.target.name + ': checked');
-            } else if (e.target.name == $(this).get(4).name) {
-                console.log(e.target.name + ': checked');
-            } else if (e.target.name == $(this).get(5).name) {
-                console.log(e.target.name + ': checked');
-            } else if (e.target.name == $(this).get(6).name) {
-                console.log(e.target.name + ': checked');
-            }
-        } else {
-            // if nth checkbox was unchecked happens...
-            if (e.target.name == $(this).get(1).name) {
-                $(this).eq(3).attr("disabled", false);
-            } else if (e.target.name == $(this).get(2).name) {
-                console.log(e.target.name + ': ' + e.target.checked);
-            } else if (e.target.name == $(this).get(3).name) {
-                console.log(e.target.name + ': ' + e.target.checked);
-            } else if (e.target.name == $(this).get(4).name) {
-                console.log(e.target.name + ': ' + e.target.checked);
-            } else if (e.target.name == $(this).get(5).name) {
-                console.log(e.target.name + ': ' + e.target.checked);
-            } else if (e.target.name == $(this).get(6).name) {
-                console.log(e.target.name + ': ' + e.target.checked);
-            }
+        var checkboxes = $("fieldset.activities label input[type=checkbox]");
+        var target = e.target.name;
+        var regex = new RegExp("[0-9]+$");
+
+        if (target == checkboxes[1].name) {
+            checkboxes[3].disabled = e.target.checked;
+        } else if (target == checkboxes[2].name) {
+            checkboxes[4].disabled = e.target.checked;
+        } else if (target == checkboxes[3].name) {
+            checkboxes[1].disabled = e.target.checked;
+        } else if (target == checkboxes[4].name) {
+            checkboxes[2].disabled = e.target.checked;
         }
 
-        
+        var sum = 0;
+
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                sum += parseInt(regex.exec(checkboxes[i].parentElement.innerText)[0]);
+            }
+        }
+        $('#totalActivitiesCost')[0].innerText = "Total Activities Cost: $" + sum;
     });
 });
