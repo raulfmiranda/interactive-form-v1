@@ -86,4 +86,30 @@ $(document).ready(function(){
         }
         $('#totalActivitiesCost')[0].innerText = "Total Activities Cost: $" + sum;
     });
+
+    // "Payment Info" section 
+
+    $("#payment").val("credit card").change();
+    $('#paypal').hide();
+    $('#bitcoin').hide();
+
+    $("#payment").on("change", function(e) {
+        var option = $("#payment").val();
+        // credit-card paypal bitcoin
+
+        $('#credit-card').hide();
+        $('#paypal').hide();
+        $('#bitcoin').hide();
+
+        if (option == 'credit card') {
+            $('#credit-card').show();
+        } else if (option == 'paypal') {
+            $('#paypal').show();            
+        } else if (option == 'bitcoin') {
+            $('#bitcoin').show();            
+        }  else {
+            $('#credit-card').show();
+            $("#payment").val("credit card").change();
+        }
+    });
 });
