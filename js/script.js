@@ -112,4 +112,23 @@ $(document).ready(function(){
             $("#payment").val("credit card").change();
         }
     });
+
+    function isValidForm() {
+
+        var isNameBlank = $('#name')[0].value == '';
+        console.log('isNameBlank: ' + isNameBlank);
+
+        if (isNameBlank) {
+            return false;
+        }
+        return true;
+    }
+
+
+    $('.registerButton').on('click', function() {
+        if (isValidForm()) {
+            $('form').submit();
+        }
+    });
+
 });
