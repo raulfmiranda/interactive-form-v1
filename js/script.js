@@ -6,7 +6,8 @@ $(document).ready(function(){
     // Setup page
 
     $('#name').focus();
-    $('#other-title').hide();
+    //$('#other-title').hide();
+    $('#title').val('other');
     hideColorOptions();
 
     // Show or Hide other job role input
@@ -113,22 +114,78 @@ $(document).ready(function(){
         }
     });
 
-    function isValidForm() {
+    function noneChecked() {
+        var checkboxes = $("fieldset.activities label input[type=checkbox]");
 
-        var isNameBlank = $('#name')[0].value == '';
-        console.log('isNameBlank: ' + isNameBlank);
-
-        if (isNameBlank) {
-            return false;
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                return false; 
+            }
         }
         return true;
     }
 
-
-    $('.registerButton').on('click', function() {
-        if (isValidForm()) {
-            $('form').submit();
+    function isCreditCardValid() {
+        var ccLength = $("#cc-num")[0].value.length;
+        var zip = $("#zip")[0].value;
+        var cvv = $("#cvv")[0].value;
+        var ccHasRightSize = ccLength > 12 && ccLength < 17;
+        var zipHasRightSize = zip.length == 5;
+        var cvvHasRightSize = cvv.length == 3;
+        var ccIsNumeric = $.isNumeric($("#cc-num")[0].value);
+        var zipIsNumeric = $.isNumeric(zip);
+        var cvvIsNumeric = $.isNumeric(cvv);
+        
+        if (!ccHasRightSize || !ccIsNumeric) {
+            return { isValid: false, message: "Credit Card field should only accept a number between 13 and 16 digits" };
         }
+        if (!zipHasRightSize || !zipIsNumeric) {
+            return { isValid: false, message: "Zip Code field should accept a 5-digit number" };
+        }
+        if (!cvvHasRightSize || !cvvIsNumeric) {
+            return { isValid: false, message: "CVV should only accept a number that is exactly 3 digits long" };
+        }
+        return { isValid: true, message: "" };
+    }
+
+    function isValidForm() {
+
+        var isNameBlank = $('#name')[0].value == '';
+        var emailRegex = /\S+@\S+\.\S+/;
+        var isEmailValid = emailRegex.test($('#mail')[0].value);
+
+        if (isNameBlank) {
+            alert("Name field can't be blank");
+            return false;
+        }
+
+        if (!isEmailValid) {
+            alert("Email field must be a validly formatted e-mail address");
+            return false;
+        }
+
+        if (noneChecked()) {
+            alert("Must select at least one checkbox");
+            return false;
+        }
+
+        if ($("#payment").val() == 'credit card') {
+            var isCCValid = isCreditCardValid(); 
+            if (!isCCValid.isValid) {
+                alert(isCCValid.message);
+                return false;
+            }
+        }
+
+        alert("Done!");
+        return true;
+    }
+
+    $('form').on('submit', function() {
+        if (isValidForm()) {
+            return true;
+        }
+        return false;
     });
 
 });
